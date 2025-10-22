@@ -22,8 +22,8 @@ reps = 0
 work_count =0
 timer = None
 notif_flag = 0
-# ---------------------------- PATH HELPER ------------------------------- #
 
+# ---------------------------- PATH HELPER ------------------------------- #
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and PyInstaller """
     try:
@@ -45,8 +45,6 @@ def reset_timer():
     checkmark_label.config(text="")
     work_count = 0
     reps = 0
-
-
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_timer():
     global reps
@@ -97,22 +95,22 @@ def count_down(count):
             start_timer()
 # ---------------------------- SOUND SETUP ------------------------------- #
 def play_sound_WORK():
-    winsound.PlaySound(r"Ring02.wav",winsound.SND_FILENAME)
+    winsound.PlaySound(resource_path(r"Ring02.wav"),winsound.SND_FILENAME)
 def play_sound_SHORT_BREAK():
-    winsound.PlaySound(r"Alarm07.wav", winsound.SND_FILENAME)
+    winsound.PlaySound(resource_path(r"Alarm07.wav"), winsound.SND_FILENAME)
 def play_sound_LONG_BREAK():
-    winsound.PlaySound(r"Alarm02.wav",winsound.SND_FILENAME)
+    winsound.PlaySound(resource_path(r"Alarm02.wav"),winsound.SND_FILENAME)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window =Tk()
 # window.minsize(600,600)
 window.config(bg=YELLOW)
-window.title("Pomodoro Timer")
+window.title("Pomodoro Study Timer")
 window.config(padx=80,pady=100)
 
 
 # tomato image
-tomato_img = PhotoImage(file=tomato_path)
+tomato_img = PhotoImage(file=resource_path(tomato_path))
 canvas = Canvas(width=210,height=224,bg=YELLOW,highlightthickness=0)
 canvas.create_image(103,112,image=tomato_img)
 canvas.grid(column=1,row=3)
