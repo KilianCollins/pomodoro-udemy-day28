@@ -26,7 +26,7 @@ def start_timer():
     short_break = SHORT_BREAK_MIN
     long_break =LONG_BREAK_MIN
 
-    count_down(WORK_MIN)
+    # count_down(WORK_MIN)
     if round_count % 8 == 0:
         count_down(long_break)
     elif round_count % 2 == 0:
@@ -38,14 +38,16 @@ def start_timer():
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
 def count_down(count):
-    if count >=0:
-        s = count % (24 * 3600)
-        m = count // 60  # // always produces a integer instead of a float
-        s %= 60
-        # if round_count == 0 or round_count % 2 == 0:
-        print(count)
+    s = count % (24 * 3600)
+    m = count // 60  # // always produces a integer instead of a float
+    s %= 60
+    canvas.itemconfig(timer_text, text=f"{"%02d:%02d" % (m, s)}")
+    print(count)
+    if count >0:
         window.after(1000, count_down, count - 1)
-        canvas.itemconfig(timer_text, text=f"{"%02d:%02d" % (m, s)}")
+    else:
+        start_timer()
+
     # elif count <=0:
     #     round_count +=1
     #     if round_count %7 == 0:
