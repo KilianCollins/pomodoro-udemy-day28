@@ -1,7 +1,8 @@
 from tkinter import *
 import time
 import winsound
-
+import sys
+import os
 
 # started 10-18-25 completed 10-22-25
 # ---------------------------- CONSTANTS ------------------------------- #
@@ -16,11 +17,22 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 CHECK_MARK ="✔"
-tomato_path = r'C:\Users\kilia\Downloads\UDEMY\pomodoro-start\tomato.png'
+tomato_path = r'tomato.png'
 reps = 0
 work_count =0
 timer = None
 notif_flag = 0
+# ---------------------------- PATH HELPER ------------------------------- #
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 # ---------------------------- TIMER RESET ------------------------------- #
 def reset_timer():
     global work_count
@@ -42,9 +54,9 @@ def start_timer():
     global notif_flag
     reps +=1
 
-    work_time = WORK_MIN*60
-    short_break = SHORT_BREAK_MIN*60
-    long_break = LONG_BREAK_MIN *60
+    work_time = WORK_MIN
+    short_break = SHORT_BREAK_MIN
+    long_break = LONG_BREAK_MIN
     if reps %8 ==0:
         count_down(long_break)
         notif_flag = LONG_BREAK_MIN
@@ -83,19 +95,15 @@ def count_down(count):
             play_sound_WORK()
             # time.sleep(2.5)
             start_timer()
-
+# ---------------------------- SOUND SETUP ------------------------------- #
+def play_sound_WORK():
+    winsound.PlaySound(r"Ring02.wav",winsound.SND_FILENAME)
+def play_sound_SHORT_BREAK():
+    winsound.PlaySound(r"Alarm07.wav", winsound.SND_FILENAME)
+def play_sound_LONG_BREAK():
+    winsound.PlaySound(r"Alarm02.wav",winsound.SND_FILENAME)
 
 # ---------------------------- UI SETUP ------------------------------- #
-
-def play_sound_WORK():
-    winsound.PlaySound(r"C:\Windows\Media\Ring02.wav",winsound.SND_FILENAME)
-def play_sound_SHORT_BREAK():
-    winsound.PlaySound(r"C:\Windows\Media\Alarm07.wav", winsound.SND_FILENAME)
-def play_sound_LONG_BREAK():
-    winsound.PlaySound(r"C:\Windows\Media\Alarm02.wav",winsound.SND_FILENAME)
-
-
-
 window =Tk()
 # window.minsize(600,600)
 window.config(bg=YELLOW)
@@ -129,5 +137,5 @@ checkmark_label.grid(column=1,row=5)
 
 
 
-
+# end
 window.mainloop()
