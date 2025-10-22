@@ -1,5 +1,8 @@
 from tkinter import *
 import time
+import winsound
+
+# started 10-18-25 completed 10-22-25
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 # RED = "#e7305b"
@@ -11,21 +14,86 @@ FONT_NAME = "Courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
-
+CHECK_MARK ="✔"
 tomato_path = r'C:\Users\kilia\Downloads\UDEMY\pomodoro-start\tomato.png'
-
-
+reps = 0
+work_count =0
+timer = None
+notif_flag = 0
 # ---------------------------- TIMER RESET ------------------------------- #
+def reset_timer():
+    global work_count
+    global timer
+    global reps
+
+    window.after_cancel(timer)
+    timer_label.config(text="Timer")
+    canvas.itemconfig(timer_text,text="00:00")
+    checkmark_label.config(text="")
+    work_count = 0
+    reps = 0
+
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
+def start_timer():
+    global reps
+    global work_count
+    global notif_flag
+    reps +=1
 
-def count_down_mech():
-    current_time = time.time()
-
+    work_time = WORK_MIN*60
+    short_break = SHORT_BREAK_MIN*60
+    long_break = LONG_BREAK_MIN *60
+    if reps %8 ==0:
+        count_down(long_break)
+        notif_flag = LONG_BREAK_MIN
+        timer_label.config(text="Break: 20mins", foreground=RED)
+    elif reps %2==0:
+        notif_flag = SHORT_BREAK_MIN
+        count_down(short_break)
+        timer_label.config(text="Break: 5mins",foreground=PINK)
+    else:
+        work_count +=1
+        notif_flag = WORK_MIN
+        count_down(work_time)
+        timer_label.config(text="Work: 25mins",foreground=GREEN)
+        checkmark_label.config(text=CHECK_MARK*work_count)
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
+def count_down(count):
+    global timer, notif_flag
+    s = count % (24 * 3600)
+    m = count //60
+    s %= 60
+    canvas.itemconfig(timer_text, text=f"{"%02d:%02d" % (m, s)}")
+    if count >=0:
+        timer = window.after(1000, count_down, count -1)
+    else:
+        if notif_flag == LONG_BREAK_MIN:
+            play_sound_LONG_BREAK()
+            # time.sleep(2.5)
+            start_timer()
+        elif notif_flag  == SHORT_BREAK_MIN:
+            play_sound_SHORT_BREAK()
+            # time.sleep(2.5)
+            start_timer()
+        else:
+            play_sound_WORK()
+            # time.sleep(2.5)
+            start_timer()
+
+
 # ---------------------------- UI SETUP ------------------------------- #
+
+def play_sound_WORK():
+    winsound.PlaySound(r"C:\Windows\Media\Ring02.wav",winsound.SND_FILENAME)
+def play_sound_SHORT_BREAK():
+    winsound.PlaySound(r"C:\Windows\Media\Alarm07.wav", winsound.SND_FILENAME)
+def play_sound_LONG_BREAK():
+    winsound.PlaySound(r"C:\Windows\Media\Alarm02.wav",winsound.SND_FILENAME)
+
+
 
 window =Tk()
 # window.minsize(600,600)
@@ -33,29 +101,32 @@ window.config(bg=YELLOW)
 window.title("Pomodoro Timer")
 window.config(padx=80,pady=100)
 
+
 # tomato image
 tomato_img = PhotoImage(file=tomato_path)
 canvas = Canvas(width=210,height=224,bg=YELLOW,highlightthickness=0)
 canvas.create_image(103,112,image=tomato_img)
 canvas.grid(column=1,row=3)
-
-# counter
-canvas.create_text(103,135, text="00:00",font=(FONT_NAME, 30, "bold"), fill=YELLOW)
+# timer
+timer_text = canvas.create_text(103,135, text="00:00",font=(FONT_NAME, 30, "bold"), fill=YELLOW)
 
 # start button
-start_button = Button(text="Start", font=(FONT_NAME,10,"bold"), foreground=YELLOW, bg=GREEN, border=0, command=count_down_mech)
+start_button = Button(text="Start", font=(FONT_NAME,10,"bold"), foreground=YELLOW, bg=GREEN, border=0,command=start_timer)
 start_button.grid(column=0,row=4)
 
 # reset button
-reset_button = Button(text="Reset", font=(FONT_NAME, 10, "bold"), foreground=YELLOW, bg=RED, border=0, command=count_down_mech)
+reset_button = Button(text="Reset", font=(FONT_NAME, 10, "bold"), foreground=YELLOW, bg=RED, border=0,command=reset_timer)
 reset_button.grid(column=2, row=4)
 
 # label
-label = Label(text="Timer",font=(FONT_NAME,30,"bold"),foreground=GREEN,bg=YELLOW)
-label.grid(column=1,row=0)
+timer_label = Label(text="Timer", font=(FONT_NAME, 30, "bold"), foreground=GREEN, bg=YELLOW)
+timer_label.grid(column=1, row=0)
 
 # check mark
-checkmark_label = Label(text="✔",foreground=GREEN,bg=YELLOW)
+checkmark_label = Label(foreground=GREEN,bg=YELLOW)
 checkmark_label.grid(column=1,row=5)
+
+
+
 
 window.mainloop()
