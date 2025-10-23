@@ -52,9 +52,9 @@ def start_timer():
     global notif_flag
     reps +=1
 
-    work_time = WORK_MIN
-    short_break = SHORT_BREAK_MIN
-    long_break = LONG_BREAK_MIN
+    work_time = WORK_MIN *60
+    short_break = SHORT_BREAK_MIN*60
+    long_break = LONG_BREAK_MIN*60
     if reps %8 ==0:
         count_down(long_break)
         notif_flag = LONG_BREAK_MIN
