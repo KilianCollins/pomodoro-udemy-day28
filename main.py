@@ -24,7 +24,7 @@ timer = None
 notif_flag = 0
 
 # ---------------------------- PATH HELPER ------------------------------- #
-def resource_path(relative_path):
+def resource_path(relative_path): #how and why does this work with pythoninstaller?? 10-22-25
     """ Get absolute path to resource, works for dev and PyInstaller """
     try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
@@ -107,6 +107,11 @@ window =Tk()
 window.config(bg=YELLOW)
 window.title("Pomodoro Study Timer")
 window.config(padx=80,pady=100)
+# window.overrideredirect(True) # removes the default bar and border on the window, why? bc i dont like the way it looks so im changing it.
+
+
+# custom window border and title
+
 
 
 # tomato image
