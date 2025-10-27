@@ -9,6 +9,7 @@ comand that activates pyinstaller (with pillow installed,(and pillow doesnt need
 pyinstaller --onefile --windowed --add-data "tomato.png;." --add-data "Ring02.wav;." --icon=ChatGPTPomodoro.ico --name "PomodoroTimer_v3" main.py
 
 pyinstaller --onefile --windowed --add-data "tomato.png;." --add-data "Ring02.wav;." --icon=tomato.ico --name "PomodoroTimer_v3" main.py
+pyinstaller --onefile --windowed --add-data "tomato.png;." --add-data "Ring02.wav;." --icon=tomato.ico --name "PomodoroTimer_v4" main.py
 
 '''
 
@@ -94,9 +95,9 @@ def start_timer():
     else:
         start_button.config(state=NORMAL)
 
-    work_time = WORK_MIN
-    short_break = SHORT_BREAK_MIN
-    long_break = LONG_BREAK_MIN
+    work_time = WORK_MIN*60
+    short_break = SHORT_BREAK_MIN*60
+    long_break = LONG_BREAK_MIN*60
     if reps %8 ==0:
 
         count_down(long_break)
