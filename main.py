@@ -10,7 +10,7 @@ comand that activates pyinstaller (with pillow installed,(and pillow doesnt need
 pyinstaller --onefile --windowed --add-data "tomato.png;." --add-data "Ring02.wav;." --icon=ChatGPTPomodoro.ico --name "PomodoroTimer_v3" main.py
 
 pyinstaller --onefile --windowed --add-data "tomato.png;." --add-data "Ring02.wav;." --icon=tomato.ico --name "PomodoroTimer_v3" main.py
-pyinstaller --onefile --windowed --add-data "tomato.png;." --add-data "Ring02.wav;." --icon=tomato.ico --name "PomodoroTimer_v4" main.py
+pyinstaller --onefile --windowed --add-data "tomato.png;." --add-data "Ring02.wav;." --add-data "Alarm07.wav" --add-data "Alarm02.wav" --icon=tomato.ico --name "PomodoroTimer_v4" main.py
 
 '''
 
