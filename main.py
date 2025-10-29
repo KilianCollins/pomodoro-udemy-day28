@@ -109,9 +109,9 @@ def start_timer():
     else:
         start_button.config(state=NORMAL)
 
-    work_time = WORK_MIN
-    short_break = SHORT_BREAK_MIN
-    long_break = LONG_BREAK_MIN
+    work_time = WORK_MIN *60
+    short_break = SHORT_BREAK_MIN*60
+    long_break = LONG_BREAK_MIN*60
 
     if paused == True:
         count_down(count_down.__dict__["remaining_time"]) # genuinly the coolist thing in the world that it works! 10-29-25
